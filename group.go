@@ -42,9 +42,9 @@ func (g *Group) Run() error {
 	// Wait for the first actor to stop.
 	err := <-errors
 
-	// Signal all actors to stop.
-	for _, a := range g.actors {
-		a.interrupt(err)
+	// Signal all actors to stop (in reverse order).
+	for i := len(g.actors) - 1; i >= 0; i-- {
+		g.actors[i].interrupt(err)
 	}
 
 	// Wait for all actors to stop.
